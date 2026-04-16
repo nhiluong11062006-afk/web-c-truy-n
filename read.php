@@ -52,45 +52,7 @@ $next_chapter = mysqli_fetch_assoc($res_next);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $chuong_hien_tai['story_title']; ?> - <?php echo $chuong_hien_tai['title']; ?></title>
-    <style>
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f4f4; margin: 0; padding: 0; }
-        
-        /* CSS cho thanh Breadcrumb */
-        .breadcrumb {
-            background-color: #eeeeee;
-            padding: 10px 10%;
-            font-size: 14px;
-            color: #777;
-            border-bottom: 1px solid #ddd;
-        }
-        .breadcrumb a {
-            text-decoration: none;
-            color: #333;
-        }
-        .breadcrumb a:hover {
-            color: #214b62;
-            text-decoration: underline;
-        }
-
-        .container { max-width: 900px; margin: 20px auto; background: white; padding: 40px; box-shadow: 0 0 10px rgba(0,0,0,0.1); border-radius: 8px; }
-        .chapter-header { text-align: center; margin-bottom: 30px; }
-        .story-title { color: #5a8d23; text-transform: uppercase; font-size: 24px; margin-bottom: 10px; }
-        .chapter-no { color: #666; font-size: 18px; }
-        
-        .navigation { display: flex; justify-content: center; gap: 5px; margin: 30px 0; }
-        .nav-btn { 
-            background-color: #5cb85c; color: white; padding: 10px 30px; 
-            text-decoration: none; border-radius: 4px; font-weight: bold;
-            display: flex; align-items: center; justify-content: center;
-            min-width: 100px;
-        }
-        .nav-btn:hover { background-color: #4cae4c; }
-        .nav-btn.disabled { background-color: #e0e0e0; color: #999; pointer-events: none; }
-        .list-icon { background-color: #5cb85c; padding: 10px 15px; border-radius: 4px; color: white; text-decoration: none; font-size: 18px; }
-        
-        .content-text { font-size: 19px; line-height: 1.8; text-align: justify; color: #333; margin-top: 40px; min-height: 400px; }
-        hr { border: 0; border-top: 1px solid #eee; margin: 40px 0; }
-    </style>
+    
 </head>
 <body>
 

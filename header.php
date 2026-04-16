@@ -1,46 +1,5 @@
 <?php include 'connect.php'; ?>
-<style>
-    /* ... (Giữ nguyên các CSS cũ của bạn) ... */
-    .navbar { background-color: #70c1e1; display: flex; align-items: center; padding: 10px 5%; color: white; font-family: Arial, sans-serif; position: relative; }
-    .nav-brand { font-size: 24px; font-weight: bold; text-transform: uppercase; margin-right: 30px; text-decoration: none; color: white; }
-    .nav-menu { display: flex; list-style: none; margin: 0; padding: 0; flex-grow: 1; }
-    .nav-item { position: relative; padding: 10px 15px; cursor: pointer; }
-    .dropdown-content { display: none; position: absolute; background-color: #f9f9f9; min-width: 200px; box-shadow: 0px 8px 16px rgba(0,0,0,0.2); z-index: 1000; top: 100%; left: 0; border-radius: 4px; }
-    .dropdown-content a { color: #333; padding: 12px 16px; text-decoration: none; display: block; }
-    .dropdown-content a:hover { background-color: #ddd; }
-    .nav-item:hover .dropdown-content { display: block; }
 
-    .search-container { position: relative; }
-    .search-box { display: flex; background: white; border-radius: 4px; padding: 5px; }
-    .search-box input { border: none; padding: 5px; outline: none; width: 200px; color: #333; }
-    .search-box button { background: none; border: none; cursor: pointer; padding: 0 5px; }
-
-    #search-results { position: absolute; top: 100%; left: 0; right: 0; background: white; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 1001; display: none; border-radius: 0 0 4px 4px; overflow: hidden; }
-    #search-results a { display: block; padding: 10px 15px; color: #333; text-decoration: none; border-bottom: 1px solid #eee; font-size: 14px; }
-    #search-results a:hover { background: #f1f1f1; }
-    #search-results a.view-more { background: #eee; font-weight: bold; text-align: center; color: #214b62; }
-
-    /* CSS MỚI CHO PHẦN ĐĂNG NHẬP / ĐĂNG KÝ */
-    .user-area {
-        margin-left: 20px;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        font-size: 14px;
-        white-space: nowrap; /* Tránh việc bị nhảy dòng */
-    }
-    .user-area a {
-        color: white;
-        text-decoration: none;
-    }
-    .user-area a:hover {
-        color: #ffc107; /* Màu vàng khi di chuột vào */
-    }
-    .user-area .user-name {
-        color: #fff183;
-        font-weight: bold;
-    }
-</style>
 
 <div class="navbar">
     <a href="index.php" class="nav-brand">Truyện Hay</a>

@@ -24,64 +24,7 @@ $res_chuong = mysqli_query($conn, $sql_chuong);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $truyen['title']; ?> - Truyện Hay</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; }
-        
-        /* Style cho thanh Breadcrumb */
-        .breadcrumb {
-            background-color: #eeeeee; 
-            padding: 10px 10%; 
-            font-size: 14px;
-            color: #777;
-            border-bottom: 1px solid #ddd;
-        }
-        .breadcrumb a {
-            text-decoration: none;
-            color: #333;
-        }
-        .breadcrumb a:hover {
-            color: #214b62;
-        }
-
-        .container {
-            width: 80%;
-            margin: 20px auto;
-            background: white;
-            padding: 30px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-
-        h1 { color: #214b62; text-transform: uppercase; margin-bottom: 5px; }
-        
-        /* Style cho phần thông số lượt xem */
-        .view-info {
-            color: #888;
-            font-size: 14px;
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .description { line-height: 1.6; color: #444; text-align: justify; }
-        
-        .chapter-list {
-            list-style: none;
-            padding: 0;
-        }
-        .chapter-list li {
-            padding: 10px 0;
-            border-bottom: 1px dashed #ccc;
-        }
-        .chapter-list li a {
-            text-decoration: none;
-            color: #214b62;
-        }
-        .chapter-list li a:hover {
-            color: #5a8d23;
-            text-decoration: underline;
-        }
-    </style>
+    
 </head>
 <body>
     <?php include 'header.php'; ?>

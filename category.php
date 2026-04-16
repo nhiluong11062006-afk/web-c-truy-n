@@ -42,34 +42,7 @@ $res_stories = mysqli_query($conn, $sql_stories);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Truyện <?php echo $category['name']; ?> - Trang <?php echo $page; ?></title>
-    <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; background-color: #f4f4f4; color: #333; }
-        .breadcrumb { background-color: #ebebeb; padding: 10px 10%; font-size: 13px; color: #777; }
-        .breadcrumb a { text-decoration: none; color: #777; }
-        .container { width: 85%; margin: 20px auto; display: flex; gap: 30px; }
-
-        .main-content { flex: 2; }
-        .cat-title { border-left: 5px solid #70c1e1; padding-left: 15px; margin-bottom: 20px; text-transform: uppercase; font-size: 24px; color: #4e4e4e; }
-        .story-list { background: #fff; border: 1px solid #ddd; border-radius: 4px; }
-        .story-item { display: flex; padding: 15px; border-bottom: 1px solid #eee; align-items: center; justify-content: space-between; }
-        .story-item:hover { background-color: #fcfcfc; }
-        .story-left { display: flex; align-items: center; gap: 15px; }
-        .story-thumb { width: 50px; height: 70px; object-fit: cover; border: 1px solid #eee; }
-        .story-info h3 { margin: 0; font-size: 16px; }
-        .story-info h3 a { text-decoration: none; color: #70c1e1; }
-        .story-info .author { font-size: 13px; color: #888; margin-top: 5px; }
-        .btn-detail { text-decoration: none; background: #5cb85c; color: white !important; padding: 8px 15px; border-radius: 4px; font-size: 13px; font-weight: bold; }
-
-        /* --- CSS CHO THANH PHÂN TRANG --- */
-        .pagination { display: flex; justify-content: center; list-style: none; padding: 25px 0; gap: 5px; }
-        .pagination li a { color: #333; padding: 8px 14px; text-decoration: none; border: 1px solid #ddd; background-color: #fff; font-size: 14px; border-radius: 2px; }
-        .pagination li.active a { background-color: #70c1e1; color: white; border: 1px solid #70c1e1; }
-        .pagination li a:hover:not(.active) { background-color: #f1f1f1; }
-
-        .sidebar { flex: 1; }
-        .cat-desc-box { background: #fff; padding: 20px; border: 1px solid #e1e1e1; font-size: 14px; line-height: 1.8; color: #555; border-radius: 4px; position: sticky; top: 20px; }
-        .no-data { padding: 40px; text-align: center; color: #999; }
-    </style>
+    
 </head>
 <body>
 
