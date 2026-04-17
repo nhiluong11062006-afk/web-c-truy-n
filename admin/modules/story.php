@@ -1,75 +1,144 @@
 <?php
-// 1. XỬ LÝ XÓA TRUYỆN (Nếu có yêu cầu xóa)
-if (isset($_GET['action']) && $_GET['action'] == 'delete') {
+// 1. XỬ LÝ XÓA TRUYỆN
+if (isset($_GET['action']) && $_GET['action'] == 'delete' && isset($_GET['id'])) {
     $id = $_GET['id'];
-    mysqli_query($conn, "DELETE FROM stories WHERE stories_id = $id");
-    header("Location: index.php?module=story");
-}
-
-// 2. XỬ LÝ THÊM TRUYỆN MỚI (Khi nhấn nút Lưu)
-if (isset($_POST['btn_add'])) {
-    $title = $_POST['title'];
-    $author = $_POST['author'];
-    $desc = $_POST['description'];
     
-    // Upload ảnh
-    $img = $_FILES['image']['name'];
-    move_uploaded_file($_FILES['image']['tmp_name'], "../uploads/" . $img);
-
-    $sql = "INSERT INTO stories (title, author, description, image, view_count) 
-            VALUES ('$title', '$author', '$desc', '$img', 0)";
-    mysqli_query($conn, $sql);
-    echo "<b>Đã thêm truyện thành công!</b>";
+    // Xóa dữ liệu ở các bảng liên quan trước để tránh lỗi khóa ngoại
+    mysqli_query($conn, "DELETE FROM stories_category WHERE stories_id = $id");
+    mysqli_query($conn, "DELETE FROM chapter WHERE stories_id = $id");
+    
+    // Cuối cùng mới xóa truyện
+    mysqli_query($conn, "DELETE FROM stories WHERE stories_id = $id");
+    
+    echo "<script>alert('Đã xóa truyện và các dữ liệu liên quan!'); window.location='index.php?module=story';</script>";
 }
-?>
 
-<hr>
-<?php
-// 1. XỬ LÝ THÊM TRUYỆN MỚI (Đã cập nhật thêm thể loại)
+// 2. XỬ LÝ THÊM TRUYỆN MỚI
 if (isset($_POST['btn_add'])) {
     $title = mysqli_real_escape_string($conn, $_POST['title']);
     $author = mysqli_real_escape_string($conn, $_POST['author']);
     $desc = mysqli_real_escape_string($conn, $_POST['description']);
     
-    // Upload ảnh
+    // Upload ảnh bìa
     $img = $_FILES['image']['name'];
-    move_uploaded_file($_FILES['image']['tmp_name'], "../uploads/" . $img);
+    if ($img != "") {
+        move_uploaded_file($_FILES['image']['tmp_name'], "../uploads/" . $img);
+    } else {
+        $img = "default.jpg"; // Ảnh mặc định nếu không chọn ảnh
+    }
 
-    // Lưu vào bảng stories trước
-    $sql = "INSERT INTO stories (title, author, description, image, view_count) 
-            VALUES ('$title', '$author', '$desc', '$img', 0)";
+    // Lưu vào bảng stories
+    $sql_story = "INSERT INTO stories (title, author, description, image, view_count) 
+                  VALUES ('$title', '$author', '$desc', '$img', 0)";
     
-    if (mysqli_query($conn, $sql)) {
-        // Lấy ID của truyện vừa mới thêm xong
-        $new_story_id = mysqli_insert_id($conn);
+    if (mysqli_query($conn, $sql_story)) {
+        $new_story_id = mysqli_insert_id($conn); // Lấy ID truyện vừa tạo
 
-        // Kiểm tra nếu có chọn thể loại thì lưu vào bảng trung gian stories_category
+        // Lưu thể loại vào bảng trung gian stories_category
         if (isset($_POST['cat_list']) && is_array($_POST['cat_list'])) {
             foreach ($_POST['cat_list'] as $cat_id) {
                 mysqli_query($conn, "INSERT INTO stories_category (stories_id, category_id) VALUES ($new_story_id, $cat_id)");
             }
         }
-        echo "<b style='color:green;'>Đã thêm truyện và phân loại thành công!</b>";
+        echo "<b style='color:green;'>Thêm truyện thành công!</b>";
+    } else {
+        echo "<b style='color:red;'>Lỗi: " . mysqli_error($conn) . "</b>";
     }
 }
 ?>
 
 <hr>
-<h3>THÊM TRUYỆN MỚI</h3>
-<form method="POST" enctype="multipart/form-data">
-    Tên truyện: <input type="text" name="title" required><br><br>
-    Tác giả: <input type="text" name="author"><br><br>
-    Mô tả: <textarea name="description"></textarea><br><br>
-    Ảnh bìa: <input type="file" name="image"><br><br>
+<h2>QUẢN LÝ TRUYỆN</h2>
 
-    <strong>Chọn thể loại cho truyện:</strong><br>
+<fieldset>
+    <legend><b>Thêm truyện mới</b></legend>
+    <form method="POST" enctype="multipart/form-data">
+        <table cellpadding="5">
+            <tr>
+                <td>Tên truyện:</td>
+                <td><input type="text" name="title" required style="width: 300px;"></td>
+            </tr>
+            <tr>
+                <td>Tác giả:</td>
+                <td><input type="text" name="author" style="width: 300px;"></td>
+            </tr>
+            <tr>
+                <td>Mô tả:</td>
+                <td><textarea name="description" rows="4" style="width: 300px;"></textarea></td>
+            </tr>
+            <tr>
+                <td>Ảnh bìa:</td>
+                <td><input type="file" name="image"></td>
+            </tr>
+            <tr>
+                <td valign="top">Thể loại:</td>
+                <td>
+                    <div style="max-height: 100px; overflow-y: auto; border: 1px solid #ccc; padding: 5px; width: 300px;">
+                    <?php
+                    $res_cat = mysqli_query($conn, "SELECT * FROM category");
+                    while ($row_cat = mysqli_fetch_assoc($res_cat)) {
+                        echo "<label><input type='checkbox' name='cat_list[]' value='{$row_cat['category_id']}'> {$row_cat['name']}</label><br>";
+                    }
+                    ?>
+                    </div>
+                    <small>(Có thể chọn nhiều thể loại)</small>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><button type="submit" name="btn_add">Lưu truyện</button></td>
+            </tr>
+        </table>
+    </form>
+</fieldset>
+
+<br>
+<hr>
+
+<h3>Danh sách truyện hiện có</h3>
+<table border="1" width="100%" cellpadding="10" style="border-collapse: collapse;">
+    <tr style="background: #eee;">
+        <th>ID</th>
+        <th>Bìa</th>
+        <th>Tên truyện</th>
+        <th>Tác giả</th>
+        <th>Thể loại</th>
+        <th>Thao tác</th>
+    </tr>
     <?php
-    // Lấy danh sách thể loại từ bảng category ra để làm checkbox
-    $res_cat = mysqli_query($conn, "SELECT * FROM category");
-    while ($row_cat = mysqli_fetch_assoc($res_cat)) {
-        echo "<input type='checkbox' name='cat_list[]' value='{$row_cat['category_id']}'> {$row_cat['name']} &nbsp;";
-    }
+    $sql_list = "SELECT * FROM stories ORDER BY stories_id DESC";
+    $res_list = mysqli_query($conn, $sql_list);
+    
+    while ($row = mysqli_fetch_assoc($res_list)) {
+        $s_id = $row['stories_id'];
     ?>
-    <br><br>
-    <button type="submit" name="btn_add">Lưu truyện</button>
-</form>
+    <tr>
+        <td align="center"><?php echo $s_id; ?></td>
+        <td align="center">
+            <img src="../uploads/<?php echo $row['image']; ?>" width="60" height="80" style="object-fit: cover;">
+        </td>
+        <td><b><?php echo $row['title']; ?></b></td>
+        <td><?php echo $row['author']; ?></td>
+        <td>
+            <?php
+            // Truy vấn lấy các thể loại của riêng truyện này
+            $sql_my_cat = "SELECT category.name FROM stories_category 
+                           JOIN category ON stories_category.category_id = category.category_id 
+                           WHERE stories_category.stories_id = $s_id";
+            $res_my_cat = mysqli_query($conn, $sql_my_cat);
+            $cat_names = [];
+            while($c = mysqli_fetch_assoc($res_my_cat)) {
+                $cat_names[] = $c['name'];
+            }
+            echo implode(", ", $cat_names); // Nối các tên bằng dấu phẩy
+            ?>
+        </td>
+        <td align="center">
+            <a href="index.php?module=chapter&stories_id=<?php echo $s_id; ?>"><b>[Quản lý chương]</b></a>
+            <br><br>
+            <a href="index.php?module=story&action=delete&id=<?php echo $s_id; ?>" 
+               style="color: red;" onclick="return confirm('Xóa truyện này sẽ xóa cả các chương liên quan. Bạn chắc chứ?')">Xóa</a>
+        </td>
+    </tr>
+    <?php } ?>
+</table>
