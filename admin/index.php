@@ -19,7 +19,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] != 1) {
     <div class="sidebar">
         <h2>ADMIN CP</h2>
         <ul>
-            <li><a href="index.php?module=category">Quản trị Loại truyện</a></li>
+            <li><a href="admin/modules/category.php">Quản trị Loại truyện</a></li>
             <li><a href="index.php?module=story">Quản trị Truyện</a></li>
             <li><a href="index.php?module=user">Quản trị Người dùng</a></li>
             <li><a href="../index.php">Xem Website</a></li>
