@@ -1,73 +1,104 @@
 <?php
-// 1. Lấy ID truyện từ URL (Ví dụ: index.php?module=chapter&stories_id=5)
+// 1. Lấy ID truyện từ URL
 $stories_id = isset($_GET['stories_id']) ? $_GET['stories_id'] : '';
 
 if ($stories_id == '') {
-    echo "<h3>Vui lòng chọn một bộ truyện từ menu <a href='index.php?module=story'>Quản lý truyện</a> để xem chương!</h3>";
+    echo "<h3>Vui lòng chọn một bộ truyện từ <a href='index.php?module=story'>Quản lý truyện</a> để làm việc!</h3>";
 } else {
-    // Lấy tên truyện để hiển thị cho đỡ nhầm
-    $sql_name = mysqli_query($conn, "SELECT title FROM stories WHERE stories_id = $stories_id");
-    $story_data = mysqli_fetch_assoc($sql_name);
-    $story_title = $story_data['title'];
+    // Lấy tên truyện hiển thị tiêu đề
+    $st_res = mysqli_query($conn, "SELECT title FROM stories WHERE stories_id = $stories_id");
+    $st_data = mysqli_fetch_assoc($st_res);
 
-    // 2. XỬ LÝ THÊM CHƯƠNG MỚI
-    if (isset($_POST['btn_add_chapter'])) {
-        $chapter_num = $_POST['chapter_number'];
-        $chapter_title = mysqli_real_escape_string($conn, $_POST['title']);
+    // 2. XỬ LÝ LƯU (CẢ THÊM MỚI VÀ CẬP NHẬT)
+    if (isset($_POST['btn_save_chapter'])) {
+        $c_id = $_POST['chapter_id']; // Nếu trống là thêm mới, có ID là sửa
+        $c_num = $_POST['chapter_number'];
+        $c_title = mysqli_real_escape_string($conn, $_POST['title']);
         $content = mysqli_real_escape_string($conn, $_POST['content']);
 
-        $sql_ins = "INSERT INTO chapter (stories_id, chapter_number, title, content) 
-                    VALUES ('$stories_id', '$chapter_num', '$chapter_title', '$content')";
+        if ($c_id == "") {
+            // THÊM MỚI
+            $sql = "INSERT INTO chapter (stories_id, chapter_number, title, content) 
+                    VALUES ('$stories_id', '$c_num', '$c_title', '$content')";
+            $msg = "Đã thêm chương mới!";
+        } else {
+            // CẬP NHẬT
+            $sql = "UPDATE chapter SET chapter_number='$c_num', title='$c_title', content='$content' 
+                    WHERE chapter_id = $c_id";
+            $msg = "Đã cập nhật chương!";
+        }
         
-        if (mysqli_query($conn, $sql_ins)) {
-            echo "<b style='color:green;'>Đã đăng chương $chapter_num thành công!</b>";
+        if (mysqli_query($conn, $sql)) {
+            echo "<script>alert('$msg'); window.location='index.php?module=chapter&stories_id=$stories_id';</script>";
         }
     }
 
-    // 3. XỬ LÝ XÓA CHƯƠNG
+    // 3. XỬ LÝ XÓA
     if (isset($_GET['action']) && $_GET['action'] == 'delete') {
         $id_del = $_GET['id'];
         mysqli_query($conn, "DELETE FROM chapter WHERE chapter_id = $id_del");
         echo "<script>window.location='index.php?module=chapter&stories_id=$stories_id';</script>";
     }
+
+    // 4. LẤY DỮ LIỆU CŨ KHI BẤM "SỬA"
+    $edit_data = ['chapter_id' => '', 'chapter_number' => '', 'title' => '', 'content' => ''];
+    if (isset($_GET['action']) && $_GET['action'] == 'edit') {
+        $id_edit = $_GET['id'];
+        $res_edit = mysqli_query($conn, "SELECT * FROM chapter WHERE chapter_id = $id_edit");
+        $edit_data = mysqli_fetch_assoc($res_edit);
+    }
 ?>
 
     <hr>
-    <h3>QUẢN LÝ CHƯƠNG: <?php echo $story_title; ?></h3>
+    <h3>QUẢN LÝ CHƯƠNG: <span style="color:blue;"><?php echo $st_data['title']; ?></span></h3>
     <a href="index.php?module=story"><- Quay lại danh sách truyện</a>
     <br><br>
 
     <fieldset>
-        <legend>Thêm chương mới</legend>
+        <legend><b><?php echo ($edit_data['chapter_id'] != '') ? "Sửa chương" : "Thêm chương mới"; ?></b></legend>
         <form method="POST">
-            Số chương: <input type="number" name="chapter_number" required placeholder="VD: 1"><br><br>
-            Tiêu đề chương: <input type="text" name="title" required style="width: 300px;" placeholder="VD: Sự khởi đầu"><br><br>
+            <input type="hidden" name="chapter_id" value="<?php echo $edit_data['chapter_id']; ?>">
+            
+            Số chương: <input type="number" name="chapter_number" required 
+                             value="<?php echo $edit_data['chapter_number']; ?>" style="width: 50px;">
+            
+            Tiêu đề chương: <input type="text" name="title" required style="width: 300px;" 
+                                  value="<?php echo $edit_data['title']; ?>" placeholder="Tên chương..."><br><br>
+            
             Nội dung chương:<br>
-            <textarea name="content" rows="15" style="width: 100%;" required placeholder="Dán nội dung truyện vào đây..."></textarea><br><br>
-            <button type="submit" name="btn_add_chapter">Đăng chương</button>
+            <textarea name="content" rows="15" style="width: 100%;" required><?php echo $edit_data['content']; ?></textarea><br><br>
+            
+            <button type="submit" name="btn_save_chapter">Lưu chương</button>
+            <?php if($edit_data['chapter_id'] != '') echo " <a href='index.php?module=chapter&stories_id=$stories_id'>Hủy bỏ</a>"; ?>
         </form>
     </fieldset>
 
     <hr>
     <h4>Danh sách chương hiện có:</h4>
-    <table border="1" width="100%">
+    <table border="1" width="100%" cellpadding="8" style="border-collapse: collapse;">
         <tr style="background: #eee;">
-            <th>Thứ tự</th>
+            <th width="10%">Chương số</th>
             <th>Tiêu đề chương</th>
-            <th>Hành động</th>
+            <th width="20%">Hành động</th>
         </tr>
         <?php
         $res = mysqli_query($conn, "SELECT * FROM chapter WHERE stories_id = $stories_id ORDER BY chapter_number ASC");
-        while ($row = mysqli_fetch_assoc($res)) {
-            echo "<tr>
-                    <td align='center'>Chương {$row['chapter_number']}</td>
-                    <td>{$row['title']}</td>
-                    <td align='center'>
-                        <a href='index.php?module=chapter&stories_id=$stories_id&action=delete&id={$row['chapter_id']}' onclick='return confirm(\"Xóa chương này?\")'>Xóa</a>
-                    </td>
-                  </tr>";
+        if (mysqli_num_rows($res) > 0) {
+            while ($row = mysqli_fetch_assoc($res)) {
+                echo "<tr>
+                        <td align='center'>{$row['chapter_number']}</td>
+                        <td>{$row['title']}</td>
+                        <td align='center'>
+                            <a href='index.php?module=chapter&stories_id=$stories_id&action=edit&id={$row['chapter_id']}'>Sửa</a> | 
+                            <a href='index.php?module=chapter&stories_id=$stories_id&action=delete&id={$row['chapter_id']}' 
+                               onclick='return confirm(\"Xóa chương này?\")' style='color:red;'>Xóa</a>
+                        </td>
+                      </tr>";
+            }
+        } else {
+            echo "<tr><td colspan='3' align='center'>Truyện này chưa có chương nào.</td></tr>";
         }
         ?>
     </table>
 
-<?php } // Đóng ngoặc else check stories_id ?>
+<?php } ?>
