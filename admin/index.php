@@ -24,8 +24,8 @@ $module = isset($_GET['module']) ? $_GET['module'] : '';
     <div class="sidebar">
         <h2>ADMIN CP</h2>
         <ul>
-            <li><a href="index.php?module=category">Quản trị Loại truyện</a></li>
-            <li><a href="index.php?module=story">Quản trị Truyện</a></li>
+            <li><a href="index.php?module=category" style="color: black">Quản trị Loại truyện</a></li>
+            <li><a href="index.php?module=story" >Quản trị Truyện</a></li>
             <li><a href="index.php?module=user">Quản trị Người dùng</a></li>
             <hr>
             <li><a href="../index.php">Xem Website</a></li>
