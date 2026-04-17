@@ -25,7 +25,6 @@ $module = isset($_GET['module']) ? $_GET['module'] : '';
         <h2>ADMIN CP</h2>
         <ul>
             <li><a href="index.php?module=category">Quản trị Loại truyện</a></li>
-            <li><a href="index.php?module=story" >Quản trị Truyện</a></li>
             <li><a href="index.php?module=user">Quản trị Người dùng</a></li>
             <hr>
             <li><a href="../index.php">Xem Website</a></li>
@@ -39,9 +38,6 @@ $module = isset($_GET['module']) ? $_GET['module'] : '';
         switch ($module) {
             case 'category':
                 include 'modules/category.php';
-                break;
-            case 'story':
-                include 'modules/story.php';
                 break;
             case 'user':
                 include 'modules/user.php';
