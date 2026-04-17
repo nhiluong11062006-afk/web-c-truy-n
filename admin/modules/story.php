@@ -87,22 +87,42 @@ if (isset($_GET['action']) && $_GET['action'] == 'edit') {
 
 <hr>
 <h3>DANH SÁCH TRUYỆN</h3>
-<table border="1" width="100%">
-    <tr style="background:#eee">
-        <th>ID</th><th>Ảnh</th><th>Tên truyện</th><th>Thao tác</th>
+<table border="1" width="100%" cellpadding="10" style="border-collapse: collapse;">
+    <tr style="background: #eee;">
+        <th>ID</th>
+        <th>Bìa</th>
+        <th>Tên truyện</th>
+        <th>Lượt đọc</th> <th>Thể loại</th>
+        <th>Thao tác</th>
     </tr>
     <?php
-    $list = mysqli_query($conn, "SELECT * FROM stories ORDER BY stories_id DESC");
-    while ($row = mysqli_fetch_assoc($list)) {
+    $sql_list = "SELECT * FROM stories ORDER BY stories_id DESC";
+    $res_list = mysqli_query($conn, $sql_list);
+    
+    while ($row = mysqli_fetch_assoc($res_list)) {
+        $s_id = $row['stories_id'];
     ?>
     <tr>
-        <td align="center"><?php echo $row['stories_id']; ?></td>
-        <td align="center"><img src="../uploads/<?php echo $row['image']; ?>" width="50"></td>
-        <td><b><?php echo $row['title']; ?></b></td>
+        <td align="center"><?php echo $s_id; ?></td>
         <td align="center">
-            <a href="index.php?module=chapter&stories_id=<?php echo $row['stories_id']; ?>">[Quản lý chương]</a> |
-            <a href="index.php?module=story&action=edit&id=<?php echo $row['stories_id']; ?>">Sửa</a> |
-            <a href="index.php?module=story&action=delete&id=<?php echo $row['stories_id']; ?>" onclick="return confirm('Xóa?')">Xóa</a>
+            <img src="../uploads/<?php echo $row['image']; ?>" width="60" height="80" style="object-fit: cover;">
+        </td>
+        <td><b><?php echo $row['title']; ?></b></td>
+        <td align="center"><?php echo number_format($row['view_count']); ?></td> <td>
+            <?php
+            $sql_my_cat = "SELECT category.name FROM stories_category 
+                           JOIN category ON stories_category.category_id = category.category_id 
+                           WHERE stories_category.stories_id = $s_id";
+            $res_my_cat = mysqli_query($conn, $sql_my_cat);
+            $cat_names = [];
+            while($c = mysqli_fetch_assoc($res_my_cat)) { $cat_names[] = $c['name']; }
+            echo implode(", ", $cat_names);
+            ?>
+        </td>
+        <td align="center">
+            <a href="index.php?module=chapter&stories_id=<?php echo $s_id; ?>">[Quản lý chương]</a> |
+            <a href="index.php?module=story&action=edit&id=<?php echo $s_id; ?>">Sửa</a> |
+            <a href="index.php?module=story&action=delete&id=<?php echo $s_id; ?>" style="color: red;" onclick="return confirm('Xóa?')">Xóa</a>
         </td>
     </tr>
     <?php } ?>
