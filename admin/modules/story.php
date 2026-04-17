@@ -1,4 +1,30 @@
 <?php
+// 1. XỬ LÝ XÓA TRUYỆN (Nếu có yêu cầu xóa)
+if (isset($_GET['action']) && $_GET['action'] == 'delete') {
+    $id = $_GET['id'];
+    mysqli_query($conn, "DELETE FROM stories WHERE stories_id = $id");
+    header("Location: index.php?module=story");
+}
+
+// 2. XỬ LÝ THÊM TRUYỆN MỚI (Khi nhấn nút Lưu)
+if (isset($_POST['btn_add'])) {
+    $title = $_POST['title'];
+    $author = $_POST['author'];
+    $desc = $_POST['description'];
+    
+    // Upload ảnh
+    $img = $_FILES['image']['name'];
+    move_uploaded_file($_FILES['image']['tmp_name'], "../uploads/" . $img);
+
+    $sql = "INSERT INTO stories (title, author, description, image, view_count) 
+            VALUES ('$title', '$author', '$desc', '$img', 0)";
+    mysqli_query($conn, $sql);
+    echo "<b>Đã thêm truyện thành công!</b>";
+}
+?>
+
+<hr>
+<?php
 // 1. XỬ LÝ THÊM TRUYỆN MỚI (Đã cập nhật thêm thể loại)
 if (isset($_POST['btn_add'])) {
     $title = mysqli_real_escape_string($conn, $_POST['title']);
