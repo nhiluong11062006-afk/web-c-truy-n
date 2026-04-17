@@ -45,7 +45,6 @@ $module = isset($_GET['module']) ? $_GET['module'] : '';
             default:
                 // Trang chào mừng khi chưa chọn module nào
                 echo "<h1>Chào mừng Admin " . ($_SESSION['full_name'] ?? 'Quản trị viên') . "</h1>";
-                echo "<p>Vui lòng chọn một chức năng ở thanh bên trái để bắt đầu.</p>";
                 break;
         }
         ?>
