@@ -7,14 +7,7 @@ include '../connect.php';
 <head>
     <meta charset="UTF-8">
     <title>Đăng ký tài khoản</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #f4f4f4; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .form-box { width: 350px; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        h2 { text-align: center; color: #214b62; margin-bottom: 20px; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: #5cb85c; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        .msg { text-align: center; font-size: 14px; margin-top: 10px; }
-    </style>
+    
 </head>
 <body>
     <div class="form-box">
