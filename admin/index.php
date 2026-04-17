@@ -24,7 +24,7 @@ $module = isset($_GET['module']) ? $_GET['module'] : '';
             <td width="20%" valign="top">
                 <h3>DANH MỤC</h3>
                 <ul>
-                    <li><a href="../index.php" > Trang chủ</a></li>
+                    <li><a href="../index.php" target="_blank"> Trang chủ</a></li>
                     <li><a href="index.php?module=category">Quản lý Loại truyện</a></li>
                     <li><a href="index.php?module=story">Quản lý Truyện</a></li>
                     <li><a href="index.php?module=user">Quản lý User</a></li>
