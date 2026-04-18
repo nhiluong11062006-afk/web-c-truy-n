@@ -5,7 +5,6 @@
         <th>Tên đăng nhập</th>
         <th>Họ tên</th>
         <th>Quyền</th>
-        <th>Thao tác</th>
     </tr>
     <?php
     $res = mysqli_query($conn, "SELECT * FROM user");
@@ -16,7 +15,6 @@
                 <td>{$row['username']}</td>
                 <td>{$row['full_name']}</td>
                 <td>$role_text</td>
-                <td><a href='#' class='btn btn-delete'>Khóa tài khoản</a></td>
               </tr>";
     }
     ?>
