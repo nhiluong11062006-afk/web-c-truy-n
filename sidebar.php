@@ -12,19 +12,24 @@ global $conn;
                 LIMIT 10";
         $result = mysqli_query($conn, $sql);
         $stt = 1;
-        while($row = mysqli_fetch_assoc($result)):
+        while($row = mysqli_fetch_assoc($result)) {
+            $date = date('d/m/Y', strtotime($row['created_at']));
         ?>
         <li class="sidebar-item">
-            <span class="rank rank-<?= $stt <= 3 ? $stt : 'other' ?>"><?= $stt ?></span>
-            <a href="detail.php?id=<?= $row['stories_id'] ?>">
-                <?= htmlspecialchars($row['title']) ?>
-            </a>
-            <span class="sidebar-date"><?= date('d/m', strtotime($row['created_at'])) ?></span>
-        </li>
-        <?php $stt++; endwhile; ?>
+                <div class="new-dot"></div>
+                <div class="sidebar-item-info">
+                    <a href="detail.php?id=<?php echo $row['stories_id']; ?>" class="sidebar-item-title">
+                        <?php echo $row['title']; ?>
+                    </a>
+                    <span class="sidebar-item-meta">📅 <?php echo $date; ?></span>
+                </div>
+            </li>
+            <?php } ?>
         </ul>
     </div>
-    <div class="sidebar-box">
+ 
+</div>
+ 
         
         <h3 class="sidebar-title">Top 10 Được Yêu Thích</h3>
         
@@ -34,18 +39,20 @@ global $conn;
                  FROM stories 
                  ORDER BY view_count DESC 
                  LIMIT 10";
-        $result2 = mysqli_query($conn, $sql2);
-        $stt2 = 1;
-        while($row2 = mysqli_fetch_assoc($result2)):
-        ?>
-        <li class="sidebar-item">
-            <span class="rank rank-<?= $stt2 <= 3 ? $stt2 : 'other' ?>"><?= $stt2 ?></span>
-            <a href="detail.php?id=<?= $row2['stories_id'] ?>">
-                <?= htmlspecialchars($row2['title']) ?>
-            </a>
-            <span class="sidebar-views"> <?= number_format($row2['view_count']) ?></span>
-        </li>
-        <?php $stt2++; endwhile; ?>
+        $res_top = mysqli_query($conn, $sql2);
+            $rank = 1;
+            while($row = mysqli_fetch_assoc($res_top)) {
+                $rankClass = $rank <= 3 ? 'rank-top' : '';
+            ?>
+            <li class="sidebar-item">
+                <span class="rank-num <?php echo $rankClass; ?>"><?php echo $rank; ?></span>
+                <div class="sidebar-item-info">
+                    <a href="detail.php?id=<?php echo $row['stories_id']; ?>" class="sidebar-item-title">
+                        <?php echo $row['title']; ?>
+                    </a>
+                    <span class="sidebar-item-meta">👁️ <?php echo number_format($row['view_count']); ?> lượt xem</span>
+                </div>
+            </li>
+            <?php $rank++; } ?>
         </ul>
     </div>
-</div>

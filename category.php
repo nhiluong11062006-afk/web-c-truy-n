@@ -112,6 +112,7 @@ $res_stories = mysqli_query($conn, $sql_stories);
                 <?php echo !empty($category['description']) ? nl2br($category['description']) : "Đang cập nhật mô tả..."; ?>
             </div>
         </div>
+        <?php include 'sidebar.php'; ?>
     </div>
 <footer class="site-footer">
     <div class="footer-links">

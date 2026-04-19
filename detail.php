@@ -61,6 +61,8 @@ $res_chuong = mysqli_query($conn, $sql_chuong);
                 </li>
             <?php } ?>
         </ul>
+        </div><!-- end main-content -->
+        <?php include 'sidebar.php'; ?>
     </div>
     <footer class="site-footer">
     <div class="footer-links">
