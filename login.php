@@ -9,7 +9,7 @@ include '../connect.php';
     <title>Đăng nhập - Truyện Hay</title>
     <link rel="stylesheet" href="../style.css?v=2">
 </head>
-<body style="display:flex; align-items:center; justify-content:center; min-height:100vh; padding:2rem;">
+<body class="auth-page">
 
     <div class="form-box">
         <h2>Đăng Nhập</h2>
@@ -22,7 +22,7 @@ include '../connect.php';
         </form>
 
         <div class="link-row">
-            Chưa có tài khoản? <a href="register.php">Đăng ký</a>
+            Chưa có tài khoản? <a href="register.php">Đăng ký ngay</a>
         </div>
 
         <?php
@@ -48,6 +48,5 @@ include '../connect.php';
         }
         ?>
     </div>
-
 </body>
 </html>

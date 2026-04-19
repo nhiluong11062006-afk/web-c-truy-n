@@ -9,7 +9,7 @@ include '../connect.php';
     <title>Đăng ký - Truyện Hay</title>
     <link rel="stylesheet" href="../style.css?v=2">
 </head>
-<body style="display:flex; align-items:center; justify-content:center; min-height:100vh; padding:2rem;">
+<body class="auth-page">
 
     <div class="form-box">
         <h2>Đăng Ký</h2>
@@ -44,6 +44,5 @@ include '../connect.php';
         }
         ?>
     </div>
-
 </body>
 </html>
