@@ -1,6 +1,7 @@
 <?php
 include 'connect.php';
 
+
 if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
     $keyword = mysqli_real_escape_string($conn, $_GET['keyword']);
     

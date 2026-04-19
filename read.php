@@ -1,12 +1,10 @@
-<?php 
-// 1. Bật hiển thị lỗi để debug
+<?php
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-include 'connect.php'; 
+include 'connect.php';
 
-// 2. Lấy ID chương từ URL
 if(isset($_GET['id'])) {
     $id = $_GET['id'];
 } else {
@@ -14,12 +12,10 @@ if(isset($_GET['id'])) {
     exit();
 }
 
-// 3. Lấy thông tin chương VÀ tên truyện (Dùng JOIN)
 $sql = "SELECT chapter.*, stories.title AS story_title 
         FROM chapter 
         JOIN stories ON chapter.stories_id = stories.stories_id 
         WHERE chapter.chapter_id = $id";
-
 $res = mysqli_query($conn, $sql);
 $chuong_hien_tai = mysqli_fetch_assoc($res);
 
@@ -31,14 +27,12 @@ if(!$chuong_hien_tai) {
 $stories_id = $chuong_hien_tai['stories_id'];
 $current_no = $chuong_hien_tai['chapter_number'];
 
-// 4. Tìm ID của chương TRƯỚC
 $sql_prev = "SELECT chapter_id FROM chapter 
              WHERE stories_id = $stories_id AND chapter_number < $current_no 
              ORDER BY chapter_number DESC LIMIT 1";
 $res_prev = mysqli_query($conn, $sql_prev);
 $prev_chapter = mysqli_fetch_assoc($res_prev);
 
-// 5. Tìm ID của chương TIẾP THEO
 $sql_next = "SELECT chapter_id FROM chapter 
              WHERE stories_id = $stories_id AND chapter_number > $current_no 
              ORDER BY chapter_number ASC LIMIT 1";
@@ -52,7 +46,7 @@ $next_chapter = mysqli_fetch_assoc($res_next);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $chuong_hien_tai['story_title']; ?> - <?php echo $chuong_hien_tai['title']; ?></title>
-    
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -64,7 +58,7 @@ $next_chapter = mysqli_fetch_assoc($res_next);
         <span>Chương <?php echo $chuong_hien_tai['chapter_number']; ?></span>
     </div>
 
-    <div class="container">
+    <div class="container single">
         <div class="chapter-header">
             <h1 class="story-title"><?php echo $chuong_hien_tai['story_title']; ?></h1>
             <div class="chapter-no">Chương <?php echo $chuong_hien_tai['chapter_number']; ?>: <?php echo $chuong_hien_tai['title']; ?></div>
@@ -77,7 +71,7 @@ $next_chapter = mysqli_fetch_assoc($res_next);
                 <a href="#" class="nav-btn disabled">❮ trước</a>
             <?php endif; ?>
 
-            <a href="detail.php?id=<?php echo $stories_id; ?>" class="list-icon">📋</a>
+            <button class="list-icon" onclick="toggleChapterList()" title="Danh sách chương">📋</button>
 
             <?php if($next_chapter): ?>
                 <a href="read.php?id=<?php echo $next_chapter['chapter_id']; ?>" class="nav-btn">tiếp ❯</a>
@@ -101,7 +95,7 @@ $next_chapter = mysqli_fetch_assoc($res_next);
                 <a href="#" class="nav-btn disabled">❮ trước</a>
             <?php endif; ?>
 
-            <a href="detail.php?id=<?php echo $stories_id; ?>" class="list-icon">📋</a>
+            <button class="list-icon" onclick="toggleChapterList()" title="Danh sách chương">📋</button>
 
             <?php if($next_chapter): ?>
                 <a href="read.php?id=<?php echo $next_chapter['chapter_id']; ?>" class="nav-btn">tiếp ❯</a>
@@ -110,6 +104,50 @@ $next_chapter = mysqli_fetch_assoc($res_next);
             <?php endif; ?>
         </div>
     </div>
+
+    <!-- Popup danh sách chương -->
+    <div id="chapter-popup" style="display:none;">
+        <div class="chapter-popup-overlay" onclick="toggleChapterList()"></div>
+        <div class="chapter-popup-box">
+            <div class="chapter-popup-header">
+                <span>Danh sách chương</span>
+                <button onclick="toggleChapterList()">✕</button>
+            </div>
+            <ul class="chapter-popup-list">
+                <?php
+                $sql_all = "SELECT * FROM chapter WHERE stories_id = $stories_id ORDER BY chapter_number ASC";
+                $res_all = mysqli_query($conn, $sql_all);
+                while($ch = mysqli_fetch_assoc($res_all)) {
+                    $active = ($ch['chapter_id'] == $id) ? 'class="current-chap"' : '';
+                    echo '<li '.$active.'><a href="read.php?id='.$ch['chapter_id'].'">Chương '.$ch['chapter_number'].': '.$ch['title'].'</a></li>';
+                }
+                ?>
+            </ul>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="#">Giới thiệu</a>
+            <a href="#">Liên hệ</a>
+            <a href="#">Thể loại</a>
+            <a href="#">Truyện mới</a>
+            <span class="sep">|</span>
+            <a href="#">Điều khoản</a>
+            <a href="#">Bảo mật</a>
+            <a href="#">Trợ giúp</a>
+        </div>
+        <div class="footer-copy">
+            © 2026 Truyện Hay — Website đọc truyện online miễn phí
+        </div>
+    </footer>
+
+    <script>
+    function toggleChapterList() {
+        const popup = document.getElementById('chapter-popup');
+        popup.style.display = popup.style.display === 'none' ? 'block' : 'none';
+    }
+    </script>
 
 </body>
 </html>

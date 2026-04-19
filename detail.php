@@ -1,5 +1,6 @@
 <?php 
 include 'connect.php'; 
+
 $id = $_GET['id']; // Lấy ID từ thanh địa chỉ URL
 
 // --- PHẦN MỚI: TĂNG LƯỢT XEM ---
@@ -22,6 +23,7 @@ $res_chuong = mysqli_query($conn, $sql_chuong);
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">  
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo $truyen['title']; ?> - Truyện Hay</title>
     
@@ -60,5 +62,20 @@ $res_chuong = mysqli_query($conn, $sql_chuong);
             <?php } ?>
         </ul>
     </div>
+    <footer class="site-footer">
+    <div class="footer-links">
+        <a href="#">Giới thiệu</a>
+        <a href="#">Liên hệ</a>
+        <a href="#">Thể loại</a>
+        <a href="#">Truyện mới</a>
+        <span class="sep">|</span>
+        <a href="#">Điều khoản</a>
+        <a href="#">Bảo mật</a>
+        <a href="#">Trợ giúp</a>
+    </div>
+    <div class="footer-copy">
+        © 2026 Truyện Hay — Website đọc truyện online miễn phí
+    </div>
+</footer>
 </body>
 </html>

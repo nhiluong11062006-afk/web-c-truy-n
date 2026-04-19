@@ -40,6 +40,7 @@ $res_stories = mysqli_query($conn, $sql_stories);
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Truyện <?php echo $category['name']; ?> - Trang <?php echo $page; ?></title>
     
@@ -112,6 +113,20 @@ $res_stories = mysqli_query($conn, $sql_stories);
             </div>
         </div>
     </div>
-
+<footer class="site-footer">
+    <div class="footer-links">
+        <a href="#">Giới thiệu</a>
+        <a href="#">Liên hệ</a>
+        <a href="#">Thể loại</a>
+        <a href="#">Truyện mới</a>
+        <span class="sep">|</span>
+        <a href="#">Điều khoản</a>
+        <a href="#">Bảo mật</a>
+        <a href="#">Trợ giúp</a>
+    </div>
+    <div class="footer-copy">
+        © 2026 Truyện Hay — Website đọc truyện online miễn phí
+    </div>
+</footer>
 </body>
 </html>
