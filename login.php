@@ -7,7 +7,7 @@ include '../connect.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng nhập - Truyện Hay</title>
-    <link rel="stylesheet" href="../style.css?v=1">
+    <link rel="stylesheet" href="../style.css?v=99">
 </head>
 <body class="auth-page">
 
@@ -22,7 +22,7 @@ include '../connect.php';
         </form>
 
         <div class="link-row">
-            Chưa có tài khoản? <a href="register.php">Đăng ký ngay</a>
+            Chưa có tài khoản? <a href="register.php">Đăng ký</a>
         </div>
 
         <?php
@@ -48,5 +48,6 @@ include '../connect.php';
         }
         ?>
     </div>
+
 </body>
 </html>

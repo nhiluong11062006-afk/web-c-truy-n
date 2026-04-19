@@ -7,10 +7,10 @@ include '../connect.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng ký - Truyện Hay</title>
-    <link rel="stylesheet" href="../style.css?v=1">
+    <link rel="stylesheet" href="../style.css?v=3">
 </head>
 <body class="auth-page">
-
+    
     <div class="form-box">
         <h2>Đăng Ký</h2>
         <p class="subtitle">— Tạo tài khoản mới —</p>
@@ -23,7 +23,7 @@ include '../connect.php';
         </form>
 
         <div class="link-row">
-            Đã có tài khoản? <a href="login.php">Đăng nhập</a>
+            Đã có tài khoản? <a href="login.php">Đăng nhập ngay</a>
         </div>
 
         <?php
@@ -38,11 +38,14 @@ include '../connect.php';
             } else {
                 $sql = "INSERT INTO user (username, password, full_name, role) VALUES ('$u', '$p', '$f', 0)";
                 if (mysqli_query($conn, $sql)) {
-                    echo "<p class='msg-success'>Đăng ký thành công! <a href='login.php'>Đăng nhập ngay</a></p>";
+                    echo "<p class='msg-success'>Đăng ký thành công! <a href='login.php'>Đăng nhập</a></p>";
+                } else {
+                    echo "<p class='msg-error'>Lỗi hệ thống, vui lòng thử lại!</p>";
                 }
             }
         }
         ?>
     </div>
+
 </body>
 </html>

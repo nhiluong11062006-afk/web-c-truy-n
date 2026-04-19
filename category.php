@@ -1,7 +1,6 @@
 <?php 
 include 'connect.php'; 
 
-// 1. Lấy ID thể loại từ URL
 if(isset($_GET['id'])) {
     $cat_id = $_GET['id'];
 } else {
@@ -9,25 +8,21 @@ if(isset($_GET['id'])) {
     exit();
 }
 
-// --- 2. PHẦN LOGIC PHÂN TRANG ---
-$limit = 7; // Số truyện hiển thị trên 1 trang
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1; // Lấy số trang hiện tại, mặc định là 1
+$limit = 7;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 if($page < 1) $page = 1;
-$start = ($page - 1) * $limit; // Vị trí bắt đầu lấy bản ghi trong SQL
+$start = ($page - 1) * $limit;
 
-// 3. Đếm tổng số truyện thuộc thể loại này để tính tổng số trang
 $sql_count = "SELECT COUNT(*) AS total FROM stories_category WHERE category_id = $cat_id";
 $res_count = mysqli_query($conn, $sql_count);
 $row_count = mysqli_fetch_assoc($res_count);
-$total_records = $row_count['total']; // Tổng số truyện
-$total_pages = ceil($total_records / $limit); // Tổng số trang (làm tròn lên)
+$total_records = $row_count['total'];
+$total_pages = ceil($total_records / $limit);
 
-// 4. Lấy thông tin thể loại hiện tại
 $sql_cat = "SELECT * FROM category WHERE category_id = $cat_id";
 $res_cat = mysqli_query($conn, $sql_cat);
 $category = mysqli_fetch_assoc($res_cat);
 
-// 5. Lấy danh sách truyện (Sử dụng LIMIT để phân trang)
 $sql_stories = "SELECT stories.* FROM stories 
                 JOIN stories_category ON stories.stories_id = stories_category.stories_id 
                 WHERE stories_category.category_id = $cat_id 
@@ -35,7 +30,6 @@ $sql_stories = "SELECT stories.* FROM stories
                 LIMIT $start, $limit";
 $res_stories = mysqli_query($conn, $sql_stories);
 ?>
-
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -43,91 +37,80 @@ $res_stories = mysqli_query($conn, $sql_stories);
     <link rel="stylesheet" href="style.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Truyện <?php echo $category['name']; ?> - Trang <?php echo $page; ?></title>
-    
 </head>
 <body>
-
     <?php include 'header.php'; ?>
 
     <div class="breadcrumb">
         <a href="index.php">🏠 Truyện</a> / <span><?php echo $category['name']; ?></span>
     </div>
 
-    <div class="container has-sidebar">
-        <div class="main-content">
-            <h1 class="cat-title">Truyện <?php echo $category['name']; ?></h1>
-            
-            <div class="story-list">
-                <?php 
-                if(mysqli_num_rows($res_stories) > 0) {
-                    while($row = mysqli_fetch_assoc($res_stories)) { 
-                ?>
-                    <div class="story-item">
-                        <div class="story-left">
-                            <img src="uploads/<?php echo $row['image']; ?>" class="story-thumb" alt="thumb">
-                            <div class="story-info">
-                                <h3><a href="detail.php?id=<?php echo $row['stories_id']; ?>"><?php echo $row['title']; ?></a></h3>
-                                <div class="author">🖋️ <?php echo $row['author']; ?></div>
-                            </div>
+    <div class="container">
+        <h1 class="cat-title">Truyện <?php echo $category['name']; ?></h1>
+
+        <?php if(!empty($category['description'])): ?>
+        <div class="cat-desc-box" style="margin-bottom: 1.5rem;">
+            <strong>Giới thiệu thể loại:</strong><br>
+            <?php echo nl2br($category['description']); ?>
+        </div>
+        <?php endif; ?>
+
+        <div class="story-list">
+            <?php 
+            if(mysqli_num_rows($res_stories) > 0) {
+                while($row = mysqli_fetch_assoc($res_stories)) { ?>
+                <div class="story-item">
+                    <div class="story-left">
+                        <img src="uploads/<?php echo $row['image']; ?>" class="story-thumb" alt="thumb">
+                        <div class="story-info">
+                            <h3><a href="detail.php?id=<?php echo $row['stories_id']; ?>"><?php echo $row['title']; ?></a></h3>
+                            <div class="author">🖋️ <?php echo $row['author']; ?></div>
                         </div>
-                        <a href="detail.php?id=<?php echo $row['stories_id']; ?>" class="btn-detail">Đọc truyện</a>
                     </div>
-                <?php 
-                    } 
-                } else {
-                    echo '<div class="no-data">Chưa có truyện nào trong mục này.</div>';
-                }
-                ?>
-            </div>
+                    <a href="detail.php?id=<?php echo $row['stories_id']; ?>" class="btn-detail">Đọc truyện</a>
+                </div>
+            <?php }
+            } else {
+                echo '<div class="no-data">Chưa có truyện nào trong mục này.</div>';
+            } ?>
+        </div>
 
-            <?php if($total_pages > 1): ?>
-            <ul class="pagination">
-                <?php if($page > 1): ?>
-                    <li><a href="category.php?id=<?php echo $cat_id; ?>&page=1">Đầu</a></li>
-                    <li><a href="category.php?id=<?php echo $cat_id; ?>&page=<?php echo $page-1; ?>">‹</a></li>
-                <?php endif; ?>
-
-                <?php 
-                // Hiển thị tối đa 5 trang xung quanh trang hiện tại để tránh thanh phân trang quá dài
-                $start_loop = max(1, $page - 2);
-                $end_loop = min($total_pages, $page + 2);
-                
-                for($i = $start_loop; $i <= $end_loop; $i++): ?>
-                    <li class="<?php echo ($i == $page) ? 'active' : ''; ?>">
-                        <a href="category.php?id=<?php echo $cat_id; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
-                    </li>
-                <?php endfor; ?>
-
-                <?php if($page < $total_pages): ?>
-                    <li><a href="category.php?id=<?php echo $cat_id; ?>&page=<?php echo $page+1; ?>">›</a></li>
-                    <li><a href="category.php?id=<?php echo $cat_id; ?>&page=<?php echo $total_pages; ?>">Cuối</a></li>
-                <?php endif; ?>
-            </ul>
+        <?php if($total_pages > 1): ?>
+        <ul class="pagination">
+            <?php if($page > 1): ?>
+                <li><a href="category.php?id=<?php echo $cat_id; ?>&page=1">Đầu</a></li>
+                <li><a href="category.php?id=<?php echo $cat_id; ?>&page=<?php echo $page-1; ?>">‹</a></li>
             <?php endif; ?>
-        </div>
+            <?php 
+            $start_loop = max(1, $page - 2);
+            $end_loop = min($total_pages, $page + 2);
+            for($i = $start_loop; $i <= $end_loop; $i++): ?>
+                <li class="<?php echo ($i == $page) ? 'active' : ''; ?>">
+                    <a href="category.php?id=<?php echo $cat_id; ?>&page=<?php echo $i; ?>"><?php echo $i; ?></a>
+                </li>
+            <?php endfor; ?>
+            <?php if($page < $total_pages): ?>
+                <li><a href="category.php?id=<?php echo $cat_id; ?>&page=<?php echo $page+1; ?>">›</a></li>
+                <li><a href="category.php?id=<?php echo $cat_id; ?>&page=<?php echo $total_pages; ?>">Cuối</a></li>
+            <?php endif; ?>
+        </ul>
+        <?php endif; ?>
+    </div>
 
-        <div class="sidebar">
-            <div class="cat-desc-box">
-                <strong>Giới thiệu thể loại:</strong><br>
-                <?php echo !empty($category['description']) ? nl2br($category['description']) : "Đang cập nhật mô tả..."; ?>
-            </div>
+    <footer class="site-footer">
+        <div class="footer-links">
+            <a href="#">Giới thiệu</a>
+            <a href="#">Liên hệ</a>
+            <a href="#">Thể loại</a>
+            <a href="#">Truyện mới</a>
+            <span class="sep">|</span>
+            <a href="#">Điều khoản</a>
+            <a href="#">Bảo mật</a>
+            <a href="#">Trợ giúp</a>
         </div>
-        <?php include 'sidebar.php'; ?>
-    </div>
-<footer class="site-footer">
-    <div class="footer-links">
-        <a href="#">Giới thiệu</a>
-        <a href="#">Liên hệ</a>
-        <a href="#">Thể loại</a>
-        <a href="#">Truyện mới</a>
-        <span class="sep">|</span>
-        <a href="#">Điều khoản</a>
-        <a href="#">Bảo mật</a>
-        <a href="#">Trợ giúp</a>
-    </div>
-    <div class="footer-copy">
-        © 2026 Truyện Hay — Website đọc truyện online miễn phí
-    </div>
-</footer>
+        <div class="footer-copy">
+            © 2026 Truyện Hay — Website đọc truyện online miễn phí
+        </div>
+    </footer>
 </body>
 </html>
