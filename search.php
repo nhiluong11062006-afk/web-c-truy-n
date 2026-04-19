@@ -11,7 +11,7 @@ $res = mysqli_query($conn, $sql);
     <link rel="stylesheet" href="style.css">  
     <title>Kết quả tìm kiếm: <?php echo $keyword; ?></title>
     <style>
-        .container { width: 80%; margin: 20px auto; font-family: Arial; }
+        .container.single { width: 80%; margin: 20px auto; font-family: Arial; }
         .list-truyen { display: flex; flex-wrap: wrap; gap: 20px; }
         .item { width: 180px; text-align: center; }
         .item img { width: 100%; height: 250px; object-fit: cover; }

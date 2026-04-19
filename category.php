@@ -53,7 +53,7 @@ $res_stories = mysqli_query($conn, $sql_stories);
         <a href="index.php">🏠 Truyện</a> / <span><?php echo $category['name']; ?></span>
     </div>
 
-    <div class="container">
+    <div class="container has-sidebar">
         <div class="main-content">
             <h1 class="cat-title">Truyện <?php echo $category['name']; ?></h1>
             
