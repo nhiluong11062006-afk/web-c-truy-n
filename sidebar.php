@@ -1,14 +1,9 @@
 <?php
 global $conn;
 ?>
-
 <div class="sidebar">
-
-    <!-- TOP 10 TRUYỆN MỚI CẬP NHẬT -->
     <div class="sidebar-box">
-        
         <h3 class="sidebar-title">Top 10 Mới Cập Nhật</h3>
-        
         <ul class="sidebar-list">
         <?php
         $sql = "SELECT stories_id, title, created_at 
@@ -29,8 +24,6 @@ global $conn;
         <?php $stt++; endwhile; ?>
         </ul>
     </div>
-
-    <!-- TOP 10 TRUYỆN ĐƯỢC YÊU THÍCH -->
     <div class="sidebar-box">
         
         <h3 class="sidebar-title">Top 10 Được Yêu Thích</h3>
@@ -50,10 +43,9 @@ global $conn;
             <a href="detail.php?id=<?= $row2['stories_id'] ?>">
                 <?= htmlspecialchars($row2['title']) ?>
             </a>
-            <span class="sidebar-views">👁 <?= number_format($row2['view_count']) ?></span>
+            <span class="sidebar-views"> <?= number_format($row2['view_count']) ?></span>
         </li>
         <?php $stt2++; endwhile; ?>
         </ul>
     </div>
-
 </div>
