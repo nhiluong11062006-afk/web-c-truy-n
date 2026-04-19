@@ -1,58 +1,44 @@
 <?php
-global $conn;
+// Sidebar dùng chung cho tất cả các trang
+// File này được include vào trong .container của từng trang
+
+$sql_top = "SELECT stories_id, title, view_count FROM stories ORDER BY view_count DESC LIMIT 10";
+$res_top = mysqli_query($conn, $sql_top);
+
+$sql_new_sb = "SELECT stories_id, title, created_at FROM stories ORDER BY created_at DESC LIMIT 10";
+$res_new_sb = mysqli_query($conn, $sql_new_sb);
 ?>
+
 <div class="sidebar">
+
+    <!-- Top 10 được yêu thích -->
     <div class="sidebar-box">
-        <h3 class="sidebar-title">Top 10 Mới Cập Nhật</h3>
-        <ul class="sidebar-list">
+        <div class="sidebar-title">🔥 Top 10 Được Yêu Thích</div>
         <?php
-        $sql = "SELECT stories_id, title, created_at 
-                FROM stories 
-                ORDER BY created_at DESC 
-                LIMIT 10";
-        $result = mysqli_query($conn, $sql);
-        $stt = 1;
-        while($row = mysqli_fetch_assoc($result)) {
-            $date = date('d/m/Y', strtotime($row['created_at']));
+        $rank = 1;
+        while($s = mysqli_fetch_assoc($res_top)) {
+            $cls = $rank <= 3 ? 'rank-top' : '';
+            echo '<a href="detail.php?id='.$s['stories_id'].'" class="sidebar-item '.$cls.'">
+                <span class="rank-num">'.$rank.'</span>
+                <span class="sidebar-item-title">'.$s['title'].'</span>
+                <span class="sidebar-views">'.number_format($s['view_count']).'</span>
+            </a>';
+            $rank++;
+        }
         ?>
-        <li class="sidebar-item">
-                <div class="new-dot"></div>
-                <div class="sidebar-item-info">
-                    <a href="detail.php?id=<?php echo $row['stories_id']; ?>" class="sidebar-item-title">
-                        <?php echo $row['title']; ?>
-                    </a>
-                    <span class="sidebar-item-meta">📅 <?php echo $date; ?></span>
-                </div>
-            </li>
-            <?php } ?>
-        </ul>
     </div>
- 
-</div>
- 
-        
-        <h3 class="sidebar-title">Top 10 Được Yêu Thích</h3>
-        
-        <ul class="sidebar-list">
+
+    <!-- Top 10 mới cập nhật -->
+    <div class="sidebar-box">
+        <div class="sidebar-title">🆕 Mới Cập Nhật</div>
         <?php
-        $sql2 = "SELECT stories_id, title, view_count 
-                 FROM stories 
-                 ORDER BY view_count DESC 
-                 LIMIT 10";
-        $res_top = mysqli_query($conn, $sql2);
-            $rank = 1;
-            while($row = mysqli_fetch_assoc($res_top)) {
-                $rankClass = $rank <= 3 ? 'rank-top' : '';
-            ?>
-            <li class="sidebar-item">
-                <span class="rank-num <?php echo $rankClass; ?>"><?php echo $rank; ?></span>
-                <div class="sidebar-item-info">
-                    <a href="detail.php?id=<?php echo $row['stories_id']; ?>" class="sidebar-item-title">
-                        <?php echo $row['title']; ?>
-                    </a>
-                    <span class="sidebar-item-meta">👁️ <?php echo number_format($row['view_count']); ?> lượt xem</span>
-                </div>
-            </li>
-            <?php $rank++; } ?>
-        </ul>
+        while($s = mysqli_fetch_assoc($res_new_sb)) {
+            echo '<a href="detail.php?id='.$s['stories_id'].'" class="sidebar-item">
+                <span class="sidebar-item-title">'.$s['title'].'</span>
+                <span class="sidebar-date">'.date('d/m', strtotime($s['created_at'])).'</span>
+            </a>';
+        }
+        ?>
     </div>
+
+</div>

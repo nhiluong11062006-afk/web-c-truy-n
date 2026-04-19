@@ -580,74 +580,28 @@ hr {
     border-color: var(--gold);
 }
 
-/* Sidebar boxes (Top 10) */
-.sidebar-box {
+/* Sidebar - chi trang chu dung flex 2 cot */
+.container { display: block; }
+.container.home { display: flex; gap: 2rem; align-items: flex-start; }
+
+.sidebar { width: 280px; flex-shrink: 0; }
+.cat-desc-box {
+    padding: 1.25rem;
     background: var(--bg-card);
     border: 1px solid var(--border);
     border-radius: var(--radius-lg);
-    overflow: hidden;
-    margin-bottom: 1.5rem;
-}
-
-.sidebar-title {
-    padding: 0.75rem 1rem;
     font-family: 'Inter', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--text-dim);
-    border-bottom: 1px solid var(--border);
-    background: rgba(232,120,154,0.05);
-}
-
-.sidebar-item {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 0.55rem 0.9rem;
-    border-bottom: 1px solid var(--border);
-    font-family: 'Inter', sans-serif;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     color: var(--text-muted);
-    transition: background 0.15s, color 0.15s;
-    line-height: 1.35;
+    line-height: 1.7;
 }
-.sidebar-item:last-child { border-bottom: none; }
-.sidebar-item:hover { background: var(--bg-hover); color: var(--gold); }
+.cat-desc-box strong { color: var(--gold); display: block; margin-bottom: 0.5rem; }
 
-.rank-num {
-    flex-shrink: 0;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--border);
+.no-data {
+    text-align: center;
+    padding: 3rem;
     color: var(--text-dim);
-    font-size: 0.7rem;
-    font-weight: 700;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.sidebar-item.rank-top .rank-num {
-    background: var(--gold);
-    color: white;
-}
-
-.sidebar-item-title {
-    flex: 1;
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
-    -webkit-box-orient: vertical;
-}
-
-.sidebar-views, .sidebar-date {
-    flex-shrink: 0;
-    font-size: 0.72rem;
-    color: var(--text-dim);
+    font-style: italic;
 }
 
 /* ============================================
@@ -903,90 +857,4 @@ body.admin-login {
     color: var(--gold);
     font-weight: 600;
     background: rgba(232,120,154,0.1);
-}
-/* --- PHẦN CSS DÀNH RIÊNG CHO TRANG ĐĂNG NHẬP/ĐĂNG KÝ --- */
-.auth-page {
-    background-color: var(--bg-dark) !important; /* Màu nền kem nhạt của web */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    margin: 0;
-    font-family: 'Inter', sans-serif;
-}
-
-.auth-page .form-box {
-    background: var(--bg-card); /* Màu trắng */
-    padding: 2.5rem;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--border-gold);
-    box-shadow: 0 10px 25px rgba(232, 120, 154, 0.1);
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
-}
-
-.auth-page h2 {
-    color: var(--gold-dim); /* Màu hồng đậm */
-    margin-bottom: 0.5rem;
-    font-family: 'Playfair Display', serif;
-}
-
-.auth-page .subtitle {
-    color: var(--text-dim);
-    font-size: 0.9rem;
-    margin-bottom: 2rem;
-}
-
-.auth-page input {
-    width: 100%;
-    padding: 12px 15px;
-    margin-bottom: 1.2rem;
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    background-color: var(--bg-input); /* Màu hồng cực nhạt */
-    color: var(--text-main);
-    box-sizing: border-box; /* Quan trọng để input không bị tràn */
-}
-
-.auth-page input:focus {
-    outline: none;
-    border-color: var(--gold);
-}
-
-.auth-page button {
-    width: 100%;
-    padding: 12px;
-    background-color: var(--gold); /* Màu hồng chính của web */
-    color: white;
-    border: none;
-    border-radius: var(--radius);
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.auth-page button:hover {
-    background-color: var(--gold-dim);
-    transform: translateY(-1px);
-}
-
-.auth-page .link-row {
-    margin-top: 1.5rem;
-    font-size: 0.9rem;
-    color: var(--text-muted);
-}
-
-.auth-page .link-row a {
-    color: var(--gold);
-    text-decoration: none;
-    font-weight: 500;
-}
-
-.auth-page .msg-error {
-    color: #d9534f;
-    background: #f8d7da;
-    padding: 10px;
-    border-radius: 4px;
-    margin-top: 10px;
 }
