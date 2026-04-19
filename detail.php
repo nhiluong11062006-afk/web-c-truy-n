@@ -35,7 +35,7 @@ $res_chuong = mysqli_query($conn, $sql_chuong);
         <a href="index.php">🏠 Truyện</a> / <span><?php echo $truyen['title']; ?></span>
     </div>
 
-    <div class="container">
+    <div class="container single">
         <h1><?php echo $truyen['title']; ?></h1>
         
         <div class="view-info">

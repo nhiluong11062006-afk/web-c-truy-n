@@ -29,7 +29,7 @@ $result = mysqli_query($conn, $sql);
 <body>
     <?php include 'header.php'; ?>
 
-    <div class="container">
+    <div class="container single">
         <h1>TRUYỆN MỚI CẬP NHẬT</h1>
         
         <div class="list-truyen">

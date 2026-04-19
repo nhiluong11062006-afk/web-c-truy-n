@@ -19,7 +19,7 @@ $res = mysqli_query($conn, $sql);
 </head>
 <body>
     <?php include 'header.php'; ?>
-    <div class="container">
+    <div class="container single">
         <h1>Kết quả tìm kiếm cho: "<?php echo $keyword; ?>"</h1>
         <div class="list-truyen">
             <?php while($row = mysqli_fetch_assoc($res)) { ?>
