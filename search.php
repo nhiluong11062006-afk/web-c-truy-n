@@ -8,9 +8,10 @@ $res = mysqli_query($conn, $sql);
 <html lang="vi">
 <head>
     <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">  
     <title>Kết quả tìm kiếm: <?php echo $keyword; ?></title>
     <style>
-        .container { width: 80%; margin: 20px auto; font-family: Arial; }
+        .container.single { width: 80%; margin: 20px auto; font-family: Arial; }
         .list-truyen { display: flex; flex-wrap: wrap; gap: 20px; }
         .item { width: 180px; text-align: center; }
         .item img { width: 100%; height: 250px; object-fit: cover; }
@@ -18,7 +19,7 @@ $res = mysqli_query($conn, $sql);
 </head>
 <body>
     <?php include 'header.php'; ?>
-    <div class="container">
+    <div class="container single">
         <h1>Kết quả tìm kiếm cho: "<?php echo $keyword; ?>"</h1>
         <div class="list-truyen">
             <?php while($row = mysqli_fetch_assoc($res)) { ?>
@@ -30,5 +31,20 @@ $res = mysqli_query($conn, $sql);
             <?php } ?>
         </div>
     </div>
+    <footer class="site-footer">
+    <div class="footer-links">
+        <a href="#">Giới thiệu</a>
+        <a href="#">Liên hệ</a>
+        <a href="#">Thể loại</a>
+        <a href="#">Truyện mới</a>
+        <span class="sep">|</span>
+        <a href="#">Điều khoản</a>
+        <a href="#">Bảo mật</a>
+        <a href="#">Trợ giúp</a>
+    </div>
+    <div class="footer-copy">
+        © 2026 Truyện Hay — Website đọc truyện online miễn phí
+    </div>
+</footer>
 </body>
 </html>

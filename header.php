@@ -1,6 +1,5 @@
 <?php include 'connect.php'; ?>
 
-
 <div class="navbar">
     <a href="index.php" class="nav-brand">Truyện Hay</a>
 
@@ -45,7 +44,7 @@
 </div>
 
 <script>
-    /* ... (Giữ nguyên JS tìm kiếm cũ của bạn) ... */
+   
     const searchInput = document.getElementById('search-input');
     const searchResults = document.getElementById('search-results');
 

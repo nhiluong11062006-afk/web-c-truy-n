@@ -1,10 +1,11 @@
 <?php
 include 'connect.php';
 
+
 if (isset($_GET['keyword']) && !empty($_GET['keyword'])) {
     $keyword = mysqli_real_escape_string($conn, $_GET['keyword']);
     
-    // Tìm truyện có tên chứa từ khóa (chỉ lấy 5 kết quả đầu tiên cho gọn)
+    // Tìm truyện có tên chứa từ khóa 
     $sql = "SELECT * FROM stories WHERE title LIKE '%$keyword%' LIMIT 5";
     $result = mysqli_query($conn, $sql);
 
