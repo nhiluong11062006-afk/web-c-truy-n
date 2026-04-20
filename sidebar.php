@@ -1,11 +1,11 @@
 <?php
-// Sidebar dùng chung cho tất cả các trang
+
 
 // 1. Top 10 được yêu thích (Giữ nguyên)
 $sql_top = "SELECT stories_id, title, view_count FROM stories ORDER BY view_count DESC LIMIT 10";
 $res_top = mysqli_query($conn, $sql_top);
 
-// 2. PHẦN CẬP NHẬT: Top 10 truyện có chương mới nhất
+// 2. Top 10 truyện có chương mới nhất
 $sql_new_sb = "SELECT s.stories_id, s.title, MAX(c.created_at) AS last_update 
                FROM stories s
                JOIN chapter c ON s.stories_id = c.stories_id 

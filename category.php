@@ -8,7 +8,7 @@ if(isset($_GET['id'])) {
     exit();
 }
 
-// Logic phân trang và lấy dữ liệu giữ nguyên như bạn đã viết
+// Logic phân trang 
 $limit = 7;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 if($page < 1) $page = 1;

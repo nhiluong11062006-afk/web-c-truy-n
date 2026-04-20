@@ -1,5 +1,5 @@
 <?php 
-session_start(); // Thêm vào cho đồng bộ với hệ thống
+session_start(); 
 include '../connect.php'; 
 ?>
 <!DOCTYPE html>
@@ -25,7 +25,7 @@ include '../connect.php';
         <?php
         if (isset($_POST['btn_register'])) {
             $u = mysqli_real_escape_string($conn, $_POST['username']);
-            // Băm mật khẩu để bảo mật (bạn đã làm rất tốt chỗ này)
+            // Băm mật khẩu để bảo mật 
             $p = password_hash($_POST['password'], PASSWORD_DEFAULT);
             $f = mysqli_real_escape_string($conn, $_POST['full_name']);
 

@@ -31,7 +31,7 @@ $page_title = isset($module_names[$module]) ? $module_names[$module] : 'Bảng �
 
     <aside class="admin-sidebar">
         <div class="sidebar-brand">
-            <div class="brand-title">BookWeb</div>
+            <div class="brand-title">Truyện Hay</div>
             <div class="brand-sub">Quản trị viên</div>
         </div>
         <nav class="sidebar-nav">

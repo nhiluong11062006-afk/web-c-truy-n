@@ -44,7 +44,7 @@
 </div>
 
 <script>
-    /* ... (Giữ nguyên JS tìm kiếm cũ của bạn) ... */
+   
     const searchInput = document.getElementById('search-input');
     const searchResults = document.getElementById('search-results');
 
