@@ -18,7 +18,7 @@ $total = mysqli_num_rows($res);
                 <th>ID</th>
                 <th>Tên đăng nhập</th>
                 <th>Họ tên</th>
-                <th>Quyền</th>
+                <th class="center">Quyền</th>
                 </tr>
         </thead>
         <tbody>
