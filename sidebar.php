@@ -34,7 +34,7 @@ $res_new_sb = mysqli_query($conn, $sql_new_sb);
     </div>
 
     <div class="sidebar-box">
-        <div class="sidebar-title">🆕  Mới Cập Nhật</div>
+        <div class="sidebar-title">🆕 Top 10 Mới Cập Nhật</div>
         <?php
         while($s = mysqli_fetch_assoc($res_new_sb)) {
             echo '<a href="detail.php?id='.$s['stories_id'].'" class="sidebar-item">
