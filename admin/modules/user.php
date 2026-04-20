@@ -1,23 +1,3 @@
-<<<<<<< HEAD
-<h3>Danh sách thành viên</h3>
-<table>
-    <tr>
-        <th>ID</th>
-        <th>Tên đăng nhập</th>
-        <th>Họ tên</th>
-        <th>Quyền</th>
-    </tr>
-    <?php
-    $res = mysqli_query($conn, "SELECT * FROM user");
-    while($row = mysqli_fetch_assoc($res)) {
-        $role_text = ($row['role'] == 1) ? "<b>Admin</b>" : "Thành viên";
-        echo "<tr>
-                <td>{$row['user_id']}</td>
-                <td>{$row['username']}</td>
-                <td>{$row['full_name']}</td>
-                <td>$role_text</td>
-              </tr>";
-=======
 <?php
 if (isset($_GET['action']) && $_GET['action'] == 'toggle' && isset($_GET['id'])) {
     $id = (int)$_GET['id'];
@@ -25,7 +5,6 @@ if (isset($_GET['action']) && $_GET['action'] == 'toggle' && isset($_GET['id']))
     if ($row_u = mysqli_fetch_assoc($res_u)) {
         $new_active = ($row_u['active'] == 1) ? 0 : 1;
         mysqli_query($conn, "UPDATE user SET active = $new_active WHERE user_id = $id");
->>>>>>> 25ad32ba3248829e8b22c195b928b5d727357848
     }
     echo "<script>window.location='index.php?module=user';</script>";
 }
