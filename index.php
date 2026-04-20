@@ -1,7 +1,7 @@
 <?php 
 include 'connect.php';
 
-// --- PHÂN TRANG: 9 truyện/trang, 3 truyện/dòng ---
+// --- PHÂN TRANG ---
 $limit = 9;
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1; 
 if($page < 1) $page = 1;
@@ -16,12 +16,17 @@ $total_pages = ceil($total_records / $limit);
 $sql = "SELECT * FROM stories ORDER BY created_at DESC LIMIT $start, $limit";
 $result = mysqli_query($conn, $sql);
 
-// --- Top 10 lượt xem ---
+// --- Top 10 lượt xem (Sidebar dùng) ---
 $sql_top = "SELECT stories_id, title, view_count FROM stories ORDER BY view_count DESC LIMIT 10";
 $res_top = mysqli_query($conn, $sql_top);
 
-// --- Top 10 mới nhất ---
-$sql_new = "SELECT stories_id, title, created_at FROM stories ORDER BY created_at DESC LIMIT 10";
+// --- CẬP NHẬT: Top 10 mới nhất theo Chapter (Sidebar dùng) ---
+$sql_new = "SELECT s.stories_id, s.title, COALESCE(MAX(c.created_at), s.created_at) AS last_update 
+            FROM stories s
+            LEFT JOIN chapter c ON s.stories_id = c.stories_id 
+            GROUP BY s.stories_id 
+            ORDER BY last_update DESC 
+            LIMIT 10";
 $res_new = mysqli_query($conn, $sql_new);
 ?>
 
@@ -37,10 +42,8 @@ $res_new = mysqli_query($conn, $sql_new);
 
     <div class="container home">
 
-        <!-- CỘT TRÁI: Danh sách truyện -->
         <div class="main-content">
             <h1>TRUYỆN MỚI CẬP NHẬT</h1>
-            
             <div class="list-truyen">
                 <?php while($row = mysqli_fetch_assoc($result)) { ?>
                     <div class="item-truyen">
@@ -58,7 +61,6 @@ $res_new = mysqli_query($conn, $sql_new);
                     <li><a href="index.php?page=1">Đầu</a></li>
                     <li><a href="index.php?page=<?php echo $page-1; ?>">‹</a></li>
                 <?php endif; ?>
-
                 <?php 
                 $start_loop = max(1, $page - 2);
                 $end_loop = min($total_pages, $page + 2);
@@ -67,7 +69,6 @@ $res_new = mysqli_query($conn, $sql_new);
                         <a href="index.php?page=<?php echo $i; ?>"><?php echo $i; ?></a>
                     </li>
                 <?php endfor; ?>
-
                 <?php if($page < $total_pages): ?>
                     <li><a href="index.php?page=<?php echo $page+1; ?>">›</a></li>
                     <li><a href="index.php?page=<?php echo $total_pages; ?>">Cuối</a></li>
@@ -76,43 +77,11 @@ $res_new = mysqli_query($conn, $sql_new);
             <?php endif; ?>
         </div>
 
-        <!-- CỘT PHẢI: Sidebar -->
         <div class="sidebar">
-
-            <!-- Top 10 được yêu thích -->
-            <div class="sidebar-box">
-                <div class="sidebar-title">🔥 Top 10 Được Yêu Thích</div>
-                <?php
-                $rank = 1;
-                while($s = mysqli_fetch_assoc($res_top)) {
-                    $cls = $rank <= 3 ? 'rank-top' : '';
-                    echo '<a href="detail.php?id='.$s['stories_id'].'" class="sidebar-item '.$cls.'">
-                        <span class="rank-num">'.$rank.'</span>
-                        <span class="sidebar-item-title">'.$s['title'].'</span>
-                        <span class="sidebar-views">'.number_format($s['view_count']).'</span>
-                    </a>';
-                    $rank++;
-                }
-                ?>
-            </div>
-
-            <!-- Top 10 mới cập nhật -->
-            <div class="sidebar-box">
-                <div class="sidebar-title">🆕 Mới Cập Nhật</div>
-                <?php
-                while($s = mysqli_fetch_assoc($res_new)) {
-                    echo '<a href="detail.php?id='.$s['stories_id'].'" class="sidebar-item">
-                        <span class="sidebar-item-title">'.$s['title'].'</span>
-                        <span class="sidebar-date">'.date('d/m', strtotime($s['created_at'])).'</span>
-                    </a>';
-                }
-                ?>
-            </div>
-
+            <?php include 'sidebar.php'; ?>
         </div>
-    </div>
 
-    <footer class="site-footer">
+    </div> <footer class="site-footer">
         <div class="footer-links">
             <a href="#">Giới thiệu</a>
             <a href="#">Liên hệ</a>
