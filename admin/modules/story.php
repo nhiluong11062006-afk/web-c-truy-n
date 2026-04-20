@@ -61,7 +61,7 @@ $is_edit = ($row_old['stories_id'] != '');
 <!-- Form -->
 <div class="form-section">
     <div class="form-section-title">
-        <?php echo $is_edit ? "✏️ Sửa thông tin truyện" : "➕ Thêm truyện mới"; ?>
+        <?php echo $is_edit ? " Sửa thông tin truyện" : " Thêm truyện mới"; ?>
     </div>
     <form method="POST" enctype="multipart/form-data">
         <input type="hidden" name="id" value="<?php echo $row_old['stories_id']; ?>">
@@ -112,7 +112,7 @@ $is_edit = ($row_old['stories_id'] != '');
         </div>
 
         <div class="form-actions">
-            <button type="submit" name="btn_save" class="btn btn-primary">💾 Lưu thông tin</button>
+            <button type="submit" name="btn_save" class="btn btn-primary"> Lưu thông tin</button>
             <?php if ($is_edit): ?>
             <a href="index.php?module=story" class="btn btn-outline">Hủy sửa</a>
             <?php endif; ?>

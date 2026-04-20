@@ -43,9 +43,9 @@ $total = mysqli_num_rows($res);
                 <td><?php echo htmlspecialchars($row['full_name'] ?? '—'); ?></td>
                 <td class="center">
                     <?php if ($is_admin): ?>
-                        <span class="badge badge-admin">⚙️ Admin</span>
+                        <span class="badge badge-admin"> Admin</span>
                     <?php else: ?>
-                        <span class="badge badge-member">👤 Thành viên</span>
+                        <span class="badge badge-member"> Thành viên</span>
                     <?php endif; ?>
                 </td>
                 <td class="center">
@@ -53,7 +53,7 @@ $total = mysqli_num_rows($res);
                     <a href="index.php?module=user&action=toggle&id=<?php echo $row['user_id']; ?>" 
                        class="btn btn-outline btn-sm"
                        onclick="return confirm('Thay đổi trạng thái tài khoản này?')">
-                       🔒 Khoá / Mở
+                        Khoá / Mở
                     </a>
                     <?php else: ?>
                     <span class="muted" style="font-size:0.78rem;">—</span>

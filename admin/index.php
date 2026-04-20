@@ -37,7 +37,7 @@ $page_title = isset($module_names[$module]) ? $module_names[$module] : 'Bảng �
         <nav class="sidebar-nav">
             <div class="sidebar-section">Điều hướng</div>
             <ul>
-                <li><a href="index.php" class="<?php echo $module === '' ? 'active' : ''; ?>"><span class="nav-icon">🏠</span> Trang chủ Admin</a></li>
+                <li><a href="index.php" class="<?php echo $module === '' ? 'active' : ''; ?>"><span class="nav-icon"></span> Trang chủ Admin</a></li>
             </ul>
             <div class="sidebar-section">Nội dung</div>
             <ul>
@@ -52,7 +52,7 @@ $page_title = isset($module_names[$module]) ? $module_names[$module] : 'Bảng �
         </nav>
         <div class="sidebar-footer">
             <a href="../index.php">← Về trang chủ</a>
-            <a href="../user/logout.php" style="margin-top:0.25rem;">🚪 Đăng xuất</a>
+            <a href="../user/logout.php" style="margin-top:0.25rem;"> Đăng xuất</a>
         </div>
     </aside>
 
@@ -83,13 +83,13 @@ $page_title = isset($module_names[$module]) ? $module_names[$module] : 'Bảng �
                 default:
             ?>
                 <div class="welcome-banner">
-                    <h2>Chào mừng trở lại 👋</h2>
+                    <h2>Chào mừng trở lại </h2>
                     <p>Chọn một chức năng bên dưới hoặc từ menu bên trái để bắt đầu quản lý.</p>
                     <div class="quick-nav">
-                        <a class="quick-nav-item" href="index.php?module=story"><span class="qn-icon">📚</span>Quản lý Truyện</a>
-                        <a class="quick-nav-item" href="index.php?module=category"><span class="qn-icon">🏷️</span>Quản lý Thể loại</a>
-                        <a class="quick-nav-item" href="index.php?module=chapter"><span class="qn-icon">📄</span>Quản lý Chương</a>
-                        <a class="quick-nav-item" href="index.php?module=user"><span class="qn-icon">👥</span>Quản lý Thành viên</a>
+                        <a class="quick-nav-item" href="index.php?module=story"><span class="qn-icon"></span>Quản lý Truyện</a>
+                        <a class="quick-nav-item" href="index.php?module=category"><span class="qn-icon"></span>Quản lý Thể loại</a>
+                        <a class="quick-nav-item" href="index.php?module=chapter"><span class="qn-icon"></span>Quản lý Chương</a>
+                        <a class="quick-nav-item" href="index.php?module=user"><span class="qn-icon"></span>Quản lý Thành viên</a>
                     </div>
                 </div>
             <?php break; } ?>

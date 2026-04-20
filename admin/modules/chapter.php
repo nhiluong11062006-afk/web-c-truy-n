@@ -2,7 +2,7 @@
 $stories_id = isset($_GET['stories_id']) ? (int)$_GET['stories_id'] : 0;
 
 if ($stories_id == 0) {
-    echo "<div class='alert alert-warning'>⚠️ Vui lòng chọn một bộ truyện từ <a href='index.php?module=story'>Quản lý truyện</a> để làm việc!</div>";
+    echo "<div class='alert alert-warning' Vui lòng chọn một bộ truyện từ <a href='index.php?module=story'>Quản lý truyện</a> để làm việc!</div>";
 } else {
     $st_res  = mysqli_query($conn, "SELECT title FROM stories WHERE stories_id = $stories_id");
     $st_data = mysqli_fetch_assoc($st_res);
@@ -51,7 +51,7 @@ if ($stories_id == 0) {
 
 <div class="form-section">
     <div class="form-section-title">
-        <?php echo $is_edit ? "✏️ Sửa chương" : "➕ Thêm chương mới"; ?>
+        <?php echo $is_edit ? " Sửa chương" : " Thêm chương mới"; ?>
     </div>
     <form method="POST">
         <input type="hidden" name="chapter_id" value="<?php echo $edit_data['chapter_id']; ?>">
@@ -70,7 +70,7 @@ if ($stories_id == 0) {
             <textarea name="content" rows="16" required placeholder="Nhập nội dung chương tại đây..."><?php echo htmlspecialchars($edit_data['content']); ?></textarea>
         </div>
         <div class="form-actions">
-            <button type="submit" name="btn_save_chapter" class="btn btn-primary">💾 Lưu chương</button>
+            <button type="submit" name="btn_save_chapter" class="btn btn-primary"> Lưu chương</button>
             <?php if ($is_edit): ?>
             <a href="index.php?module=chapter&stories_id=<?php echo $stories_id; ?>" class="btn btn-outline">Hủy bỏ</a>
             <?php endif; ?>

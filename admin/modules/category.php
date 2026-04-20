@@ -49,7 +49,7 @@ $total_types = mysqli_num_rows($res);
 <!-- Form thêm/sửa -->
 <div class="form-section">
     <div class="form-section-title">
-        <?php echo ($edit_id != "") ? "✏️ Sửa thể loại" : "➕ Thêm thể loại mới"; ?>
+        <?php echo ($edit_id != "") ? " Sửa thể loại" : " Thêm thể loại mới"; ?>
     </div>
     <form method="POST">
         <input type="hidden" name="category_id" value="<?php echo $edit_id; ?>">
@@ -65,7 +65,7 @@ $total_types = mysqli_num_rows($res);
         </div>
         <div class="form-actions">
             <button type="submit" name="btn_save_cat" class="btn btn-primary">
-                <?php echo ($edit_id != "") ? "💾 Cập nhật" : "➕ Thêm mới"; ?>
+                <?php echo ($edit_id != "") ? " Cập nhật" : " Thêm mới"; ?>
             </button>
             <?php if ($edit_id != ""): ?>
             <a href="index.php?module=category" class="btn btn-outline">Hủy bỏ</a>
